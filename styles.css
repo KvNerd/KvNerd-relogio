@@ -1,21 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+/* Reset e Variáveis */
+:root {
+  --primary-color: #094492;
+  --secondary-color: #000000;
+  --text-color: #ffffff;
+  --glass-effect: rgba(255, 255, 255, 0.2);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", "Open Sans", sans-serif;
 }
 
+/* Tipografia */
+body {
+  font-family: "Segoe UI", "Open Sans", sans-serif;
+  color: var(--text-color);
+}
+/* Fundo */
 body {
   height: 100vh;
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   display: flex;
+  flex-direction: column; /* Para organizar os elementos verticalmente */
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
+/* Efeito de partículas/background */
 body::before {
   content: "";
   position: absolute;
@@ -32,54 +46,29 @@ body::before {
   z-index: -1;
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+/* Relógio - Glassmorphism melhorado */
 .relogio {
   display: flex;
   align-items: center;
   justify-content: space-around;
   height: 220px;
   width: 600px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--glass-effect);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow), 
+              inset 0 0 10px rgba(255, 255, 255, 0.1); /* Efeito interno */
+  backdrop-filter: blur(12px); /* Aumentei o blur */
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borda mais sutil */
   padding: 20px;
   transition: all 0.3s ease;
-}
-
-.relogio:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-}
-
-.relogio div {
-  height: 170px;
-  width: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: rgb(255, 255, 255);
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  letter-spacing: 3px;
   position: relative;
   overflow: hidden;
 }
 
-.relogio div::before {
-  content: "";
+/* Efeito de luz no relógio */
+.relogio::after {
+  content: '';
   position: absolute;
   top: -50%;
   left: -50%;
@@ -87,16 +76,42 @@ body::before {
   height: 200%;
   background: linear-gradient(
     to bottom right,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 60%
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 60%
   );
-  transform: rotate(45deg);
+  transform: rotate(30deg);
+  pointer-events: none;
+}
+/* Unidades de tempo (horas, minutos, segundos) */
+.relogio div {
+  height: 170px;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1),
+              inset 0 0 10px rgba(255, 255, 255, 0.05);
+  letter-spacing: 3px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.relogio div:hover {
+  transform: translateY(-5px);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .relogio span {
   font-weight: bold;
   font-size: 60px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 .relogio span.tempo {
@@ -105,24 +120,141 @@ body::before {
   margin-top: 10px;
   letter-spacing: 2px;
   font-weight: 500;
+  opacity: 0.8;
 }
 
+/* Separador com animação melhorada */
 .separador {
   font-size: 60px;
-  color: white;
+  color: var(--text-color);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin: 0 5px;
-  animation: pulse 1.5s infinite;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+/* Container de ícones sociais */
+.social-container {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(9, 26, 136, 0.7);
+  padding: 12px 25px;
+  border-radius: 50px;
+  backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+.social-icons a {
+  margin: 0 15px; /* Reduzi um pouco a margem entre ícones */
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transição mais suave */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px; /* Tamanho um pouco maior */
+  height: 45px;
+  border-radius: 50%;
+  color: white; /* Cor definida para melhor contraste */
+  text-decoration: none; /* Remove sublinhado de links */
+  position: relative;
+  overflow: hidden; /* Para efeitos internos */
+}
+
+/* Efeito de brilho ao passar o mouse */
+.social-icons a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.social-icons a:hover::before {
+  left: 100%;
+}
+
+.social-icons a:hover {
+  color: #ffffff;
+  transform: translateY(-5px) scale(1.15); /* Animação mais pronunciada */
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra no hover */
+}
+
+/* Efeito de pulsação suave */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.social-icons a:focus {
+  outline: none;
+  animation: pulse 1s ease infinite; /* Efeito de pulsação para acessibilidade */
+}
+/* Responsividade */
+@media (max-width: 650px) {
+  .relogio {
+    width: 90%;
+    height: auto;
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+  
+  .relogio div {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+  }
+  
+  .separador {
+    display: none;
+  }
+  
+  .social-icons {
+    width: 90%;
+    padding: 10px 15px;
+  }
+  
+  .social-icons a {
+    margin: 0 15px;
+    font-size: 20px;
+  }
+}
+/* Animações */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.relogio {
+  animation: float 6s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0% {
+  0%, 100% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
+    opacity: 0.7;
+    transform: scale(1.05);
   }
 }
